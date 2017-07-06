@@ -300,10 +300,9 @@ function modernizeLes () {
     $(les_select).append(old_dom.les_select);
     $(les_select).append(les_label);
     $(person_card_content).append(les_select);
-    $(old_dom.les_select).css('display','inline-block').css('height','').css('width','').on('change', function() { $('#Form1').submit(); });
+    $(old_dom.les_select).on('change', function() { $('#Form1').submit(); });
     $(old_dom.les_select_submit).addClass('hide');
     $(person_card_content).append(old_dom.les_select_submit);
-    $('select').material_select();
     person_info_table = $('<table>');
     person_info_table_body = $('<tbody>');
     $(old_dom.personal_info).each(function(index) {
@@ -337,8 +336,8 @@ function modernizeLes () {
     col2 = $('<td>').text(old_dom.total_allotments);
     $(row3).append(col1).append(col2);
     row4 = $('<tr>');
-    col1 = $('<td>').text("Net pay");
-    col2 = $('<td>').text(old_dom.net_pay);
+    col1 = $('<td>').text("Net pay").css("font-weight","bold");
+    col2 = $('<td>').text(old_dom.net_pay).css("font-weight","bold");
     $(row4).append(col1).append(col2);
     $(summary_table_body).append(row1).append(row2).append(row3).append(row4);
     $(summary_table).append(summary_table_body);
@@ -456,13 +455,14 @@ function modernizeLes () {
       p = $('<p>').text($.camelCase($(this).text().trim()));
       $(message_card_content).append(p);
     });
-
+    
     $(message_card).append(message_card_content);
     $(message_div).append(message_card);
 
     $(fourth_row).append(message_div);
 
     $('#Form1').append(first_row).append(second_row).append(third_row).append(fourth_row);
+    $('select').material_select();
 
 }
 
@@ -483,6 +483,7 @@ function modernizeMenu() {
     $(links_div).append(links_ul);
     $(links_row).append(links_div);
     $('body').append(links_row);
+    $('[type=submit]').addClass("waves-effect waves-light btn");
 }
 (function() {
     'use strict';
