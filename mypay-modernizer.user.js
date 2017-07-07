@@ -229,7 +229,7 @@ function modernizeMain () {
     var cac_submit = $('<button>').addClass('btn blue waves-effect waves-white white-text').text('CAC Login').on('click', function() {
         var url = 'Smartcheck/SmartCheck.aspx';
         var a = 'mpeex';
-        var features = 'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=no,top=0,left=0';
+        var features = 'toolbar=yes,location=yes,directories=no,status=yes,menubar=yes,scrollbars=yes,resizable=no,top=0,left=0';
         newwin = window.open(url, a, features);
         document.forms[1].__VIEWSTATE.name = 'NOVIEWSTATE';
         //document.forms[1].__VIEWSTATE.value = '';
@@ -468,7 +468,7 @@ function modernizeLes () {
       p = $('<p>').text($.camelCase($(this).text().trim()));
       $(message_card_content).append(p);
     });
-    
+
     $(message_card).append(message_card_content);
     $(message_div).append(message_card);
 
