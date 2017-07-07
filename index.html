@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="style.css">
         <title>
             MyPay Modernizer
         </title>
@@ -14,20 +14,129 @@
     <body>
       <nav class="light-blue lighten-1" role="navigation">
         <div class="nav-wrapper container">
-            <a href="#" data-activates="nav-mobile" class="button-collapse">
-                <i class="material-icons">menu</i>
-            </a>
+          <a id="logo-container" href="https://github.com/kimobu/mypay-modernizer" class="brand-logo">MyPay Modernizer</a>
         </div>
       </nav>
       <main>
           <div class="container">
-            {% block content %}{% endblock content %}
+            <h1 class="header">MyPay for the modern web</h1>
+            <p>MyPay Modernizer takes the Defense Finance and Accounting
+              Service's myPay website and redesigns it for the modern web.
+              The things you want to do and the information you want to see
+              are now displayed prominently on the pages.
+            </p>
+          </div>
+          <div class="row">
+            <div class="container">
+              <h2 class="header">Responsive</h2>
+              <p>MyPay Modernizer makes the myPay website responsive. The original
+                website wastes screen real estate with whitespace and fixed-size
+                elements. The modernized site scales content to your device's viewport.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col m12 l5">
+              <img class="materialboxed" width="100%" src="old_home.png">
+            </div>
+            <div class="col l2 hide-on-med-and-down center-align">
+              <i class="material-icons md-128 md-dark">arrow_forward</i>
+            </div>
+            <div class="col s12 hide-on-large-only center-align">
+              <i class="material-icons md-128 md-dark">arrow_downward</i>
+            </div>
+            <div class="col m12 l5">
+              <img class="materialboxed" width="100%" src="modernized_home.png">
+            </div>
+          </div>
+          <div class="row">
+            <div class="container">
+              <h3 class="header">Emojified</h3>
+              <p>The modernized page uses emojis to convey the idea that you are
+                both patriotic and rolling in that fat BAH 💯 👌
+              </p>
+              <h3 class="header">Freedom level: over 9000</h3>
+              <p>MyPay Modernizer returns your freedom by:</p>
+                <ul class="browser-default">
+                  <li>giving you back the power to right-click.</li>
+                  <li>opening in a new tab instead of a new window</li>
+                  <li>not opening in full screen for no reason</li>
+                </ul>
+              <h5>'MURICA</h5>
+              </p>
+              <div class="center-align">
+                <img src="http://i.imgur.com/3Fv9F.jpg" width="600">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="container">
+              <h2 class="header">Simplified LES</h2>
+              <p>MyPay Modernizer reformats the LES so you can actually read
+                the information. No longer is your pay information stored in
+                a table within a table within a table. No longer are the font
+                sizes so small that you need BCGs to read them.
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col m12 l5">
+              <img class="materialboxed" width="100%" src="old_les.png">
+            </div>
+            <div class="col l2 hide-on-med-and-down center-align">
+              <i class="material-icons md-128 md-dark">arrow_forward</i>
+            </div>
+            <div class="col s12 hide-on-large-only center-align">
+              <i class="material-icons md-128 md-dark">arrow_downward</i>
+            </div>
+            <div class="col m12 l5">
+              <img class="materialboxed" width="100%" src="modernized_les.png">
+            </div>
           </div>
       </main>
       <footer class="page-footer orange">
+        <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">MIT License</h5>
+              <p class="grey-text text-lighten-3">
+                Copyright (c) 2017 Kimo Bumanglag
+              </p>
+              <p class="grey-text text-lighten-3">
+                Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so.
+              </p>
+              <p class="grey-text text-lighten-3">
+                The above copyright notice and this permission notice shall be included in all
+                copies or substantial portions of the Software.
+              </p>
+              <p class="grey-text text-lighten-3">
+                THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+              </p>
+            </div>
+            <div class="col l6 s12">
+              <h5 class="white-text">Issues</h5>
+              <p class="grey-text text-lighten-4">I do not use all features of myPay, and I've only applied the
+                script to the pages that I do use. If you'd like to apply it to
+                more pages, submit a pull request.
+              </p>
+              <p><a href="https://github.com/kimobu/mypay-modernizer/issues" class="white-text">Submit issues</a></p>
+            </div>
+          </div>
+        </div>
         <div class="footer-copyright">
           <div class="container">
-          kimobu - MyPay Modernizer
+          https://github.com/kimobu/mypay-modernizer
           </div>
         </div>
       </footer>
