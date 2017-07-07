@@ -35,7 +35,6 @@ if (window.location.href.indexOf('myPayMessage') > -1 || window.location.href.in
     modernizeMenu();
 }
 
-
 function buildBody(logout_url, links) {
     header_outer = document.createElement('nav');
     header_outer.classList.add('blue');
@@ -142,10 +141,10 @@ function scrapeLes() {
   dom_elements.tax_info.push( { name: "Federal taxes year to date", value: $(l_info).find('b').eq(15).text() } );
   tax_table = $('#Table12');
   fica = $(tax_table).find('tr').eq(0);
-  dom_elements.tax_info.push( { name: "Social security taxable wages (this period)", value: $(fica).find('b').eq(1).text() } );
-  dom_elements.tax_info.push( { name: "Social security taxables wages (year to date)", value: $(fica).find('b').eq(2).text() } );
-  dom_elements.tax_info.push( { name: "Social security taxes year to date", value: $(fica).find('b').eq(3).text() } );
-  dom_elements.tax_info.push( { name: "Medicare taxable wages (this period)", value: $(fica).find('b').eq(4).text() } );
+  dom_elements.tax_info.push( { name: "OASDI - Taxable Wages", value: $(fica).find('b').eq(1).text() } );
+  dom_elements.tax_info.push( { name: "OASDI - Taxable Wages (year to date)", value: $(fica).find('b').eq(2).text() } );
+  dom_elements.tax_info.push( { name: "OASDI (year to date)", value: $(fica).find('b').eq(3).text() } );
+  dom_elements.tax_info.push( { name: "Medicare taxable wages", value: $(fica).find('b').eq(4).text() } );
   dom_elements.tax_info.push( { name: "Medicare taxes (year to date)", value: $(fica).find('b').eq(5).text() } );
   dom_elements.tax_info.push( { name: "Claimed state", value: $(fica).find('b').eq(7).text() } );
   dom_elements.tax_info.push( { name: "State taxable wages (this period)", value: $(fica).find('b').eq(8).text() } );
@@ -158,24 +157,24 @@ function scrapeLes() {
   tsp_table = $('#Table13');
   tsp = $(tsp_table).find('tr').eq(0);
   dom_elements.tsp = [];
-  dom_elements.tsp.push({ name: "% base pay to TSP", value: $(tsp).find('b').eq(1).text().trim() });
-  dom_elements.tsp.push( { name: "$amount base pay to TSP", value: $(tsp).find('b').eq(2).text().trim() } );
-  dom_elements.tsp.push( { name: "% special pay to TSP", value: $(tsp).find('b').eq(3).text().trim() } );
-  dom_elements.tsp.push( { name: "$amount special pay to TSP", value: $(tsp).find('b').eq(4).text().trim() } );
-  dom_elements.tsp.push( { name: "% incidental pay to TSP", value: $(tsp).find('b').eq(5).text().trim() } );
-  dom_elements.tsp.push( { name: "$amount incidental pay to TSP", value: $(tsp).find('b').eq(6).text().trim() } );
-  dom_elements.tsp.push( { name: "% bonus pay to TSP", value: (tsp).find('b').eq(7).text().trim() } );
-  dom_elements.tsp.push( { name: "$amount bonus pay to TSP", value: $(tsp).find('b').eq(8).text().trim() } );
+  dom_elements.tsp.push({ name: "Base pay (%)", value: $(tsp).find('b').eq(1).text().trim() + " %" });
+  dom_elements.tsp.push( { name: "Base pay ($)", value: "$ " + $(tsp).find('b').eq(2).text().trim() } );
+  dom_elements.tsp.push( { name: "Special pay (%)", value: $(tsp).find('b').eq(3).text().trim() + " %" } );
+  dom_elements.tsp.push( { name: "Special pay ($)", value: "$ " + $(tsp).find('b').eq(4).text().trim() } );
+  dom_elements.tsp.push( { name: "Incidental pay (%)", value: $(tsp).find('b').eq(5).text().trim() + " %" } );
+  dom_elements.tsp.push( { name: "Incidental pay ($)", value: "$ " + $(tsp).find('b').eq(6).text().trim() } );
+  dom_elements.tsp.push( { name: "Bonus pay (%)", value: (tsp).find('b').eq(7).text().trim() + " %" } );
+  dom_elements.tsp.push( { name: "Bonus pay ($)", value: "$ " + $(tsp).find('b').eq(8).text().trim() } );
   roth = $(tsp_table).find('tr').eq(1);
   dom_elements.roth = [];
-  dom_elements.roth.push( { name: "% base pay to Roth TSP", value: $(roth).find('b').eq(1).text().trim() } );
-  dom_elements.roth.push( { name: "$amount base pay to Roth TSP", value: $(roth).find('b').eq(2).text().trim() } );
-  dom_elements.roth.push( { name: "% special pay to Roth TSP", value: $(roth).find('b').eq(3).text().trim() } );
-  dom_elements.roth.push( { name: "$amount special pay to Roth TSP", value: $(roth).find('b').eq(4).text().trim() } );
-  dom_elements.roth.push( { name: "% incidental pay to Roth TSP", value: $(roth).find('b').eq(5).text().trim() } );
-  dom_elements.roth.push( { name: "$amount incidental pay to Roth TSP", value: $(roth).find('b').eq(6).text().trim() } );
-  dom_elements.roth.push( { name: "% bonus pay to Roth TSP", value: $(roth).find('b').eq(7).text().trim() } );
-  dom_elements.roth.push( { name: "$amount bonus pay to Roth TSP", value: $(roth).find('b').eq(8).text().trim() } );
+  dom_elements.roth.push( { name: "Roth base pay (%)", value: $(roth).find('b').eq(1).text().trim() + " %" } );
+  dom_elements.roth.push( { name: "Roth base pay ($)", value: "$ " + $(roth).find('b').eq(2).text().trim() } );
+  dom_elements.roth.push( { name: "Roth special pay (%)", value: $(roth).find('b').eq(3).text().trim() + " %" } );
+  dom_elements.roth.push( { name: "Roth special pay ($)", value: "$ " + $(roth).find('b').eq(4).text().trim() } );
+  dom_elements.roth.push( { name: "Roth incidental pay (%)", value: $(roth).find('b').eq(5).text().trim() + " %" } );
+  dom_elements.roth.push( { name: "Roth incidental pay ($)", value: "$ " + $(roth).find('b').eq(6).text().trim() } );
+  dom_elements.roth.push( { name: "Roth bonus pay (%)", value: $(roth).find('b').eq(7).text().trim() + " %" } );
+  dom_elements.roth.push( { name: "Roth bonus pay ($)", value: "$ " + $(roth).find('b').eq(8).text().trim() } );
   tsp_totals = $(tsp_table).find('tr').eq(2);
   dom_elements.tsp_ytd_deductions = { name: "Total deductions for TSP year to date", value: $(tsp_totals).find('b').eq(1).text().trim() };
   dom_elements.tsp_ytd_deferred = { name: "Total deferred for TSP year to date", value: $(tsp_totals).find('b').eq(2).text().trim() };
@@ -224,12 +223,26 @@ function modernizeMain () {
     var cac_icon_row = $('<div>').addClass('row');
     var cac_icon = $('<img>').attr('src', 'http://archive.defense.gov/DODCMSShare/NewsStoryPhoto/2015-06/hrs_W%20Sample%20MilCiv%20CAC.jpg');
     cac_icon.css ( {
-        width:      "128px",
-        marginLeft:        "6.5em"} );
+        width:      "128px"
+    } );
     var cac_login_row = $('<div>').addClass('row center-align');
-    $(old_dom.cac_submit).addClass('btn blue waves-effect waves-white white-text').val('CAC Login');
+    var cac_submit = $('<button>').addClass('btn blue waves-effect waves-white white-text').text('CAC Login').on('click', function() {
+        var url = 'Smartcheck/SmartCheck.aspx';
+        var a = 'mpeex';
+        var features = 'toolbar=no,location=no,directories=no,status=yes,menubar=no,scrollbars=yes,resizable=no,top=0,left=0';
+        newwin = window.open(url, a, features);
+        document.forms[1].__VIEWSTATE.name = 'NOVIEWSTATE';
+        //document.forms[1].__VIEWSTATE.value = '';
+        var vsmartemail = getQueryVariable("FLPS");
+        //document.getElementById('visSmartEmail').value = vsmartemail;
+        document.forms[1].action = url;
+        document.forms[1].submit();
+        //document.getElementById('visPin').value = "";
+        //document.getElementById('visLogin').value = "";
+    });
+
     $(cac_icon_row).append(cac_icon);
-    $(cac_login_row).append(old_dom.cac_submit);
+    $(cac_login_row).append(cac_submit);
     $(cac_div).append(cac_icon_row).append(cac_login_row);
     $(login_div).append(username_password_div).append(cac_div);
     var help_row = $('<div>').addClass('row');
@@ -292,7 +305,7 @@ function modernizeLes () {
     $('#Panel2').remove();
     buildBody(null, old_dom.links);
     first_row = $('<div>').addClass('row');
-    person_div = $('<div>').addClass('col m4 hide-on-small-only');
+    person_div = $('<div>').addClass('col l4 m4 hide-on-small-only');
     person_card = $('<div>').addClass('card');
     person_card_content = $('<div>').addClass('card-content');
     les_select = $('<div>').addClass('input-field col s12');
@@ -317,7 +330,7 @@ function modernizeLes () {
     $(person_card).append(person_card_content);
     $(person_div).append(person_card);
 
-    summary_div = $('<div>').addClass('col s12 m8');
+    summary_div = $('<div>').addClass('col s12 m8 l4');
     summary_card = $('<div>').addClass('card');
     summary_card_content = $('<div>').addClass('card-content');
     title = $('<span>').addClass('card-title').text('Summary');
@@ -345,7 +358,7 @@ function modernizeLes () {
     $(summary_card).append(summary_card_content);
     $(summary_div).append(summary_card);
 
-    leave_div = $('<div>').addClass('col s12 m8');
+    leave_div = $('<div>').addClass('col s12 m8 l4');
     leave_card = $('<div>').addClass('card');
     leave_card_content = $('<div>').addClass('card-content');
     title = $('<span>').addClass('card-title').text('Leave');
@@ -372,7 +385,7 @@ function modernizeLes () {
     $(first_row).append(person_div).append(summary_div).append(leave_div);
 
     second_row = $('<div>').addClass('row');
-    tax_div = $('<div>').addClass('col s12');
+    tax_div = $('<div>').addClass('col s12 l6');
     tax_card = $('<div>').addClass('card');
     tax_card_content = $('<div>').addClass('card-content');
     title = $('<span>').addClass('card-title').text('Tax');
@@ -400,7 +413,7 @@ function modernizeLes () {
     $(second_row).append(tax_div);
 
     third_row = $('<div>').addClass('row');
-    tsp_div = $('<div>').addClass('col s12');
+    tsp_div = $('<div>').addClass('col s12 l6');
     tsp_card = $('<div>').addClass('card');
     tsp_card_content = $('<div>').addClass('card-content');
     title = $('<span>').addClass('card-title').text('Thrift Savings Plan');
@@ -443,7 +456,7 @@ function modernizeLes () {
     $(tsp_card).append(tsp_card_content);
     $(tsp_div).append(tsp_card);
 
-    $(third_row).append(tsp_div);
+    $(second_row).append(tsp_div);
 
     fourth_row = $('<div>').addClass('row');
     message_div = $('<div>').addClass('col s12');
