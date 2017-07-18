@@ -16,6 +16,8 @@
 // @grant       GM_getResourceText
 // ==/UserScript==
 
+$('body').css("all", "unset");
+
 
 var css = GM_getResourceText ("css");
 GM_addStyle (css);
@@ -115,13 +117,46 @@ function scrapeLes() {
   dom_elements.personal_info.push( { name: "Branch", value: $(p_info).find('b').eq(7).text() } );
   dom_elements.personal_info.push( { name: "ADSN", value: $(p_info).find('b').eq(8).text() } );
   dom_elements.personal_info.push( { name: "Check period", value: $(p_info).find('b').eq(9).text() } );
-  dom_elements.entitlements = $('#tblEntitlements');
   dom_elements.total_entitlements = $('#Table6').first('font').text().trim();
-  dom_elements.deductions = $('#tblDeductions');
   dom_elements.total_deductions = $('#Table8').first('font').text().trim();
-  dom_elements.allotments = $('#tblAllotments');
   dom_elements.total_allotments = $('#Table10').first('font').text().trim();
   dom_elements.net_pay = $('#Table11').find('tr').eq(3).find('font').eq(1).text().trim();
+  dom_elements.entitlement_elements = [];
+  entitlements = $('#tblEntitlements');
+  ents=$(entitlements).find('font')[0];
+  ents2=$(ents).html().split('<br>');
+  ent_money=$(entitlements).find('font')[1];
+  ent_money2=$(ent_money).html().split('<br>');
+  for(i=0;i<ents2.length;i++) { 
+	if(ents2[i] === "") {
+		continue;
+    }
+	dom_elements.entitlement_elements.push( { name: ents2[i].trim(), value: ent_money2[i].trim() } );
+  }
+  deductions = $('#tblDeductions');
+  dom_elements.deduction_elements = [];
+  deds=$(deductions).find('font')[0];
+  deds2=$(deds).html().split('<br>');
+  ded_money=$(deductions).find('font')[1];
+  ded_money2=$(ded_money).html().split('<br>');
+  for(i=0;i<deds2.length;i++) { 
+	if(deds2[i] === "") {
+		continue;
+    }
+	dom_elements.deduction_elements.push( { name: deds2[i].trim(), value: ded_money2[i].trim() } );
+  }
+  allotments = $('#tblAllotments');
+  dom_elements.allotment_elements = [];
+  alls=$(allotments).find('font')[0];
+  alls2=$(alls).html().split('<br>');
+  all_money=$(allotments).find('font')[1];
+  all_money2=$(all_money).html().split('<br>');
+  for(i=0;i<alls2.length;i++) { 
+	if(alls2[i] === "") {
+		continue;
+    }
+	dom_elements.allotment_elements.push( { name: alls2[i].trim(), value: all_money2[i].trim() } );
+  }
   l_info = $('#Table1').find('tr').eq(23);
   dom_elements.leave_info = [];
   dom_elements.leave_info.push( { name: "Before", value: $(l_info).find('b').eq(1).text() } );
@@ -231,14 +266,8 @@ function modernizeMain () {
         var a = 'mpeex';
         var features = 'toolbar=yes,location=yes,directories=no,status=yes,menubar=yes,scrollbars=yes,resizable=no,top=0,left=0';
         newwin = window.open(url, a, features);
-        document.forms[1].__VIEWSTATE.name = 'NOVIEWSTATE';
-        //document.forms[1].__VIEWSTATE.value = '';
-        var vsmartemail = getQueryVariable("FLPS");
-        //document.getElementById('visSmartEmail').value = vsmartemail;
         document.forms[1].action = url;
         document.forms[1].submit();
-        //document.getElementById('visPin').value = "";
-        //document.getElementById('visLogin').value = "";
     });
 
     $(cac_icon_row).append(cac_icon);
@@ -381,8 +410,40 @@ function modernizeLes () {
     $(leave_card_content).append(title).append(leave_table);
     $(leave_card).append(leave_card_content);
     $(leave_div).append(leave_card);
+    
+    pay_details = $('<div>').addClass('col s12 m8');
+    details_card = $('<div>').addClass('card');
+    details_card_content = $('<div>').addClass('card-content');
+    title = $('<span>').addClass('card-title').text('Pay Details');
+    details_table = $('<table>').addClass('striped');
+    details_table_body = $('<tbody>');
+    $(old_dom.entitlement_elements).each(function(index) {
+        var row = $('<tr>');
+        var name = $('<td>').text(this.name);
+        var val = $('<td>').text("+ " + this.value).addClass('green-text');
+        $(row).append(name).append(val);
+        $(details_table_body).append(row);
+    });
+    $(old_dom.deduction_elements).each(function(index) {
+        var row = $('<tr>');
+        var name = $('<td>').text(this.name);
+        var val = $('<td>').text("- " + this.value).addClass('red-text');
+        $(row).append(name).append(val);
+        $(details_table_body).append(row);
+    });
+    $(old_dom.allotment_elements).each(function(index) {
+        var row = $('<tr>');
+        var name = $('<td>').text(this.name);
+        var val = $('<td>').text("- " + this.value).addClass('red-text');
+        $(row).append(name).append(val);
+        $(details_table_body).append(row);
+    });
+    $(details_table).append(details_table_body);
+    $(details_card_content).append(title).append(details_table);
+    $(details_card).append(details_card_content);
+    $(pay_details).append(details_card);
 
-    $(first_row).append(person_div).append(summary_div).append(leave_div);
+    $(first_row).append(person_div).append(summary_div).append(leave_div).append(pay_details);
 
     second_row = $('<div>').addClass('row');
     tax_div = $('<div>').addClass('col s12 l6');
@@ -468,7 +529,7 @@ function modernizeLes () {
       p = $('<p>').text($.camelCase($(this).text().trim()));
       $(message_card_content).append(p);
     });
-
+    
     $(message_card).append(message_card_content);
     $(message_div).append(message_card);
 
