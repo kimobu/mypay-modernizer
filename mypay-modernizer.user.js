@@ -27,6 +27,22 @@ GM_addStyle (icons);
 // Re-enable right click
 document.oncontextmenu = null;
 
+// Re-enable alt navigation
+function onKeyDown() {
+    if (
+        (event.altKey)
+        || ((event.keyCode == 8) && (event.srcElement.type != "text" && event.srcElement.type != "textarea" && event.srcElement.type != "password"))
+        || ((event.ctrlKey) && ((event.keyCode == 78) || (event.keyCode == 82)))
+        || (event.keyCode == 116)
+        || ((event.srcElement.type == "text") && ((event.srcElement.disabled == true) || (event.srcElement.readOnly == true)))
+
+    ) {
+        // only nazis would disable this
+        if (event.altKey && (event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 36))
+            event.keyCode = event.keyCode;
+    }
+}
+
 if (window.location.href.indexOf('mypay.aspx') > -1) {
   modernizeMain();
 }
@@ -82,7 +98,7 @@ function buildBody(logout_url, links) {
     } else {
         $('body').append(header_outer);
     }
-    $('body').css('background-color', '#f5f5f5');
+    $('body').css('background-color', 'rgb(252, 252, 252)');
 }
 
 function scrapeMain () {
@@ -91,9 +107,9 @@ function scrapeMain () {
     dom_elements.password_input = document.getElementById('visPin');
     dom_elements.login_submit = document.getElementById('cmdGo');
     dom_elements.cac_submit = document.getElementById('cmdCAC');
-    dom_elements.forgot_password = "javascript:winopen('PinLetter.aspx','mpeex')";
-    dom_elements.forgot_username = "javascript:winopen('GetLoginID.aspx','mpeex')";
-    dom_elements.create_user = "javascript:winopen('myPayEnroll.aspx','mpeex')";
+    dom_elements.forgot_password = "javascript:winopen('PinLetter.aspx','_blank')";
+    dom_elements.forgot_username = "javascript:winopen('GetLoginID.aspx','_blank')";
+    dom_elements.create_user = "javascript:winopen('myPayEnroll.aspx','_blank')";
     dom_elements.news = document.getElementById('ctlPanel').getElementsByTagName('table');
     dom_elements.links = document.getElementById('QuickTable').getElementsByTagName('a');
     dom_elements.warning = document.getElementById('WarningTable');
@@ -263,7 +279,7 @@ function modernizeMain () {
     var cac_login_row = $('<div>').addClass('row center-align');
     var cac_submit = $('<button>').addClass('btn blue waves-effect waves-white white-text').text('CAC Login').on('click', function() {
         var url = 'Smartcheck/SmartCheck.aspx';
-        var a = 'mpeex';
+        var a = '_self';
         var features = 'toolbar=yes,location=yes,directories=no,status=yes,menubar=yes,scrollbars=yes,resizable=no,top=0,left=0';
         newwin = window.open(url, a, features);
         document.forms[1].action = url;
@@ -359,7 +375,7 @@ function modernizeLes () {
     $(person_card).append(person_card_content);
     $(person_div).append(person_card);
 
-    summary_div = $('<div>').addClass('col s12 m8 l4');
+    summary_div = $('<div>').addClass('col s12 m8');
     summary_card = $('<div>').addClass('card');
     summary_card_content = $('<div>').addClass('card-content');
     title = $('<span>').addClass('card-title').text('Summary');
@@ -388,34 +404,32 @@ function modernizeLes () {
     $(summary_div).append(summary_card);
 
     leave_div = $('<div>').addClass('col s12 m8 l4');
-    leave_card = $('<div>').addClass('card');
-    leave_card_content = $('<div>').addClass('card-content');
-    title = $('<span>').addClass('card-title').text('Leave');
-    leave_table = $('<table>').addClass('striped');
+    title = $('<h4>').text('Leave');
+    leave_table = $('<table>').addClass('bordered');
     leave_table_body = $('<tbody>');
-    table_string = '';
     $(old_dom.leave_info).each(function(index) {
-      if(index % 2 == 0 || index === 0) {
-          table_string += '<tr>';
-          table_string += '<td>' + this.name + '</td>';
-          table_string += '<td>' + this.value + '</td>';
-      } else {
-          table_string += '<td>' + this.name + '</td>';
-          table_string += '<td>' + this.value + '</td>';
-          table_string += '</tr>';
+      var row = $('<tr>');
+      var name = $('<td>').text(this.name);
+      if(this.name == "Earned" && this.value > 0){
+          val = $('<td>').text("+ " + this.value).addClass("green-text");
       }
+      else if((this.name == "Used" && this.value > 0) || (this.name == "Lost" && this.value > 0)){
+          val = $('<td>').text("- " + this.value).addClass("red-text");
+      }
+      else if(this.name == "Use or Lose" && this.value > 0) {
+          val = $('<td>').text(this.value).addClass("red-text").css("font-weight", "bold");
+      } else {
+          val = $('<td>').text(this.value);
+      }
+      $(row).append(name).append(val);
+      $(leave_table_body).append(row);
     });
-    $(leave_table_body).html(table_string);
     $(leave_table).append(leave_table_body);
-    $(leave_card_content).append(title).append(leave_table);
-    $(leave_card).append(leave_card_content);
-    $(leave_div).append(leave_card);
-    
-    pay_details = $('<div>').addClass('col s12 m8');
-    details_card = $('<div>').addClass('card');
-    details_card_content = $('<div>').addClass('card-content');
-    title = $('<span>').addClass('card-title').text('Pay Details');
-    details_table = $('<table>').addClass('striped');
+    $(leave_div).append(title).append(leave_table);
+
+    pay_details = $('<div>').addClass('col s12 m8 l4');
+    title = $('<h4>').text('Pay Details');
+    details_table = $('<table>').addClass('bordered');
     details_table_body = $('<tbody>');
     $(old_dom.entitlement_elements).each(function(index) {
         var row = $('<tr>');
@@ -439,18 +453,13 @@ function modernizeLes () {
         $(details_table_body).append(row);
     });
     $(details_table).append(details_table_body);
-    $(details_card_content).append(title).append(details_table);
-    $(details_card).append(details_card_content);
-    $(pay_details).append(details_card);
+    $(pay_details).append(title).append(details_table);
 
     $(first_row).append(person_div).append(summary_div).append(leave_div).append(pay_details);
 
     second_row = $('<div>').addClass('row');
     tax_div = $('<div>').addClass('col s12 l6');
-    tax_card = $('<div>').addClass('card');
-    tax_card_content = $('<div>').addClass('card-content');
-    title = $('<span>').addClass('card-title').text('Tax');
-
+    title = $('<h4>').text('Tax');
     tax_table = $('<table>').addClass('striped');
     tax_table_body = $('<tbody>');
     table_string = '';
@@ -467,18 +476,13 @@ function modernizeLes () {
     });
     $(tax_table_body).html(table_string);
     $(tax_table).append(tax_table_body);
-    $(tax_card_content).append(title).append(tax_table);
-    $(tax_card).append(tax_card_content);
-    $(tax_div).append(tax_card);
+    $(tax_div).append(title).append(tax_table);
 
     $(second_row).append(tax_div);
 
     third_row = $('<div>').addClass('row');
     tsp_div = $('<div>').addClass('col s12 l6');
-    tsp_card = $('<div>').addClass('card');
-    tsp_card_content = $('<div>').addClass('card-content');
-    title = $('<span>').addClass('card-title').text('Thrift Savings Plan');
-
+    title = $('<h4>').text('Thrift Savings Plan');
     tsp_table = $('<table>').addClass('striped');
     tsp_table_body = $('<tbody>');
     table_string = '';
@@ -513,9 +517,7 @@ function modernizeLes () {
     });
     $(tsp_table_body).html($(tsp_table_body).html() + table_string);
     $(tsp_table).append(tsp_table_body);
-    $(tsp_card_content).append(title).append(tsp_table);
-    $(tsp_card).append(tsp_card_content);
-    $(tsp_div).append(tsp_card);
+    $(tsp_div).append(title).append(tsp_table);
 
     $(second_row).append(tsp_div);
 
