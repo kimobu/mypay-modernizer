@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MyPay Modernizer
 // @namespace    http://github.com/kimobu/mypay-modernizer
-// @version      0.1
+// @version      0.2
 // @description  Makes MyPay look like a more modern wesite
 // @author       @kimobu
 // @match        https://mypay.dfas.mil/mypay.aspx
@@ -143,7 +143,7 @@ function scrapeLes() {
   ents2=$(ents).html().split('<br>');
   ent_money=$(entitlements).find('font')[1];
   ent_money2=$(ent_money).html().split('<br>');
-  for(i=0;i<ents2.length;i++) { 
+  for(i=0;i<ents2.length;i++) {
 	if(ents2[i] === "") {
 		continue;
     }
@@ -155,7 +155,7 @@ function scrapeLes() {
   deds2=$(deds).html().split('<br>');
   ded_money=$(deductions).find('font')[1];
   ded_money2=$(ded_money).html().split('<br>');
-  for(i=0;i<deds2.length;i++) { 
+  for(i=0;i<deds2.length;i++) {
 	if(deds2[i] === "") {
 		continue;
     }
@@ -167,7 +167,7 @@ function scrapeLes() {
   alls2=$(alls).html().split('<br>');
   all_money=$(allotments).find('font')[1];
   all_money2=$(all_money).html().split('<br>');
-  for(i=0;i<alls2.length;i++) { 
+  for(i=0;i<alls2.length;i++) {
 	if(alls2[i] === "") {
 		continue;
     }
@@ -531,7 +531,7 @@ function modernizeLes () {
       p = $('<p>').text($.camelCase($(this).text().trim()));
       $(message_card_content).append(p);
     });
-    
+
     $(message_card).append(message_card_content);
     $(message_div).append(message_card);
 
@@ -554,6 +554,10 @@ function modernizeMenu() {
     var links_ul = $('<div>').addClass('collection');
     $(links).each(function(index) {
         $(this).addClass('collection-item');
+        if($(this).is(':contains("Opt Into the Blended Retirement System")')) {
+            $(this).css("color", "red");
+            $(this).text("WARNING: Don't click this unless you want to opt-in to BRS");
+        }
         $(links_ul).append($(this));
     });
     $(links_div).append(links_ul);
